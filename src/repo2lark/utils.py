@@ -68,3 +68,18 @@ async def send_to_lark(template_id: str, variables: dict) -> None:
 
     if res.status_code != 200:
         raise HTTPException(status_code=500, detail=res.text)
+
+
+def truncate(text: str, length: int = 25) -> str:
+    """Truncate text to a certain length.
+
+    Args:
+        text: text to truncate
+        length: length to truncate to
+
+    Returns:
+        Truncated text.
+    """
+    if len(text) > length:
+        return text[: length - 3] + "..."
+    return text

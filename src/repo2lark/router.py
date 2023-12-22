@@ -1,14 +1,18 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, BackgroundTasks, Request
 
 from repo2lark.config import settings
 from repo2lark.models import BaseEvent, PushEvent
-from repo2lark.utils import send_to_lark
+from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
 
 
 @router.post("/webhook")
-async def webhook(request: Request, params: PushEvent | BaseEvent):
+async def webhook(
+    request: Request,
+    params: PushEvent | BaseEvent,
+    background_tasks: BackgroundTasks = None,
+):
     headers = request.headers
 
     x_github_event = headers.get("X-GitHub-Event", None)
@@ -17,7 +21,8 @@ async def webhook(request: Request, params: PushEvent | BaseEvent):
 
     match x_github_event:
         case "push":
-            await send_to_lark(
+            background_tasks.add_task(
+                send_to_lark,
                 settings.push_template_id,
                 variables={
                     "commiter": params.pusher.name,
@@ -26,8 +31,10 @@ async def webhook(request: Request, params: PushEvent | BaseEvent):
                     "branch": params.ref,
                     "time": params.head_commit.timestamp,
                     "commit_url": params.head_commit.url,
-                    "message": params.head_commit.message,
+                    "message": truncate(params.head_commit.message),
                 },
             )
+        case _:
+            pass
 
-    return {"message": "ok"}
+    return {"message": "recieved"}
