@@ -70,7 +70,7 @@ async def send_to_lark(template_id: str, variables: dict) -> None:
         raise HTTPException(status_code=500, detail=res.text)
 
 
-def truncate(text: str, length: int = 25) -> str:
+def truncate(text: str, length: int = 40) -> str:
     """Truncate text to a certain length.
 
     Args:

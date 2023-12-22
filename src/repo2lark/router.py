@@ -1,7 +1,10 @@
-from fastapi import APIRouter, BackgroundTasks, Request
+import json
+from typing import Optional
+
+from fastapi import APIRouter, BackgroundTasks, Form, Request
 
 from repo2lark.config import settings
-from repo2lark.models import BaseEvent, PushEvent
+from repo2lark.models import PushEvent
 from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
@@ -10,7 +13,7 @@ router = APIRouter()
 @router.post("/webhook")
 async def webhook(
     request: Request,
-    params: PushEvent | BaseEvent,
+    payload: Optional[str] = Form(...),
     background_tasks: BackgroundTasks = None,
 ):
     headers = request.headers
@@ -21,6 +24,8 @@ async def webhook(
 
     match x_github_event:
         case "push":
+            params = PushEvent(**json.loads(payload))
+
             background_tasks.add_task(
                 send_to_lark,
                 settings.push_template_id,
