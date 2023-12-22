@@ -1,0 +1,31 @@
+[project]
+name = "Repo2Lark"
+version = "0.0.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "jingfelix", email = "jingfelix@outlook.com"},
+]
+dependencies = [
+    "fastapi>=0.105.0",
+    "httpx>=0.26.0",
+    "uvicorn>=0.25.0",
+    "pydantic-settings>=2.1.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "GPLv3"}
+
+[project.urls]
+Homepage = "https://github.com/jingfelix/Repo2Lark"
+"Bug Tracker" = "https://github.com/jingfelix/Repo2Lark"
+
+[project.scripts]
+repo2lark = "repo2lark.__init__:run"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+package-type = "library"
