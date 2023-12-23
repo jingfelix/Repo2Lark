@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     app_name: str = "r2lark"
 
     push_template_id: str = "ctp_AAydM4VlgIBl"
+    issue_template_id: str = "ctp_AAydOzv3yGRD"
 
     webhook_url: str = ""
     webhook_secret: str = ""

@@ -38,3 +38,26 @@ class PushEvent(BaseEvent):
     # commits: list
     head_commit: HeadCommit
     pusher: Pusher
+
+
+class User(BaseModel):
+    id: int
+    login: str
+    name: Optional[str] = None
+
+
+class Issue(BaseModel):
+    id: int
+    number: int
+    state: str
+    title: str
+    body: str | None
+    html_url: str
+    updated_at: str
+    user: User
+
+
+class IssueEvent(BaseEvent):
+    action: str
+    issue: Issue
+    repository: Repository
