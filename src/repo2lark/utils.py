@@ -5,6 +5,8 @@ import time
 
 import httpx
 from starlette.exceptions import HTTPException
+from starlette.requests import Request
+from starlette.types import Message
 
 from repo2lark.config import settings
 
@@ -32,7 +34,7 @@ def verify_signature(payload_body, secret_token, signature_header) -> None:
 
 
 def gen_sign(timestamp, secret):
-    # 拼接timestamp和secret
+    # 拼接 timestamp 和 secret
     string_to_sign = "{}\n{}".format(timestamp, secret)
     hmac_code = hmac.new(
         string_to_sign.encode("utf-8"), digestmod=hashlib.sha256
@@ -53,18 +55,18 @@ async def send_to_lark(template_id: str, variables: dict) -> None:
             },
         },
     }
-    if settings.webhook_secret != "" and settings.webhook_secret is not None:
+    if settings.lark_webhook_secret != "" and settings.lark_webhook_secret is not None:
         timestamp = str(int(time.time()))
-        sign = gen_sign(timestamp, settings.webhook_secret)
+        sign = gen_sign(timestamp, settings.lark_webhook_secret)
         data["timestamp"] = timestamp
         data["sign"] = sign
 
-    if settings.webhook_url == "" or settings.webhook_url is None:
-        raise HTTPException(status_code=500, detail="webhook_url is empty!")
+    if settings.lark_webhook_url == "" or settings.lark_webhook_url is None:
+        raise HTTPException(status_code=500, detail="lark_webhook_url is empty!")
 
     # TODO 增加超时和重试
     async with httpx.AsyncClient() as client:
-        res = await client.post(settings.webhook_url, json=data)
+        res = await client.post(settings.lark_webhook_url, json=data)
 
     if res.status_code != 200:
         raise HTTPException(status_code=500, detail=res.text)
@@ -83,3 +85,12 @@ def truncate(text: str, length: int = 40) -> str:
     if len(text) > length:
         return text[: length - 3] + "..."
     return text
+
+
+async def get_body(request: Request) -> bytes:
+    async def receive() -> Message:
+        return {"type": "http.request", "body": body}
+
+    body = await request.body()
+    request._receive = receive
+    return body
