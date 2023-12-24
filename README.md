@@ -8,6 +8,6 @@
 
 - [ ] pull_request_comment
 
-- [ ] issue
+- [x] issue
 
 - [ ] issue_comment

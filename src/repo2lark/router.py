@@ -4,14 +4,15 @@ from typing import Optional
 from fastapi import APIRouter, BackgroundTasks, Form, Request
 
 from repo2lark.config import settings
-from repo2lark.models import IssueEvent, PushEvent
+from repo2lark.models import BaseEvent, IssueEvent, PushEvent
 from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
 
 
 @router.post("/webhook")
-async def webhook(
+@router.post("/webhook/urlencoded")
+async def webhook_urlencoded(
     request: Request,
     payload: Optional[str] = Form(...),
     background_tasks: BackgroundTasks = None,
@@ -63,3 +64,17 @@ async def webhook(
             pass
 
     return {"message": "recieved"}
+
+
+@router.post("/webhook/json")
+async def webhook_json(
+    request: Request,
+    params: PushEvent | IssueEvent | BaseEvent,
+    background_tasks: BackgroundTasks = None,
+):
+    # 转发至 webhook_urlencoded
+    return await webhook_urlencoded(
+        request,
+        payload=params.model_dump_json(),
+        background_tasks=background_tasks,
+    )
