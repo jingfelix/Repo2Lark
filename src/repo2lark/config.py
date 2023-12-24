@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     push_template_id: str = "ctp_AAydM4VlgIBl"
     issue_template_id: str = "ctp_AAydOzv3yGRD"
+    issue_comment_template_id: str = "ctp_AAy45ODQkUZY"
 
     lark_webhook_url: str = ""
     lark_webhook_secret: str = ""

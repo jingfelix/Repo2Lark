@@ -61,3 +61,14 @@ class IssueEvent(BaseEvent):
     action: str
     issue: Issue
     repository: Repository
+
+
+class Comment(BaseModel):
+    body: str
+    created_at: str
+    url: str
+    user: User
+
+
+class IssueCommentEvent(IssueEvent):
+    comment: Comment

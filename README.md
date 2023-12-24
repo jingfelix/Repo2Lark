@@ -10,4 +10,4 @@
 
 - [x] issue
 
-- [ ] issue_comment
+- [x] issue_comment

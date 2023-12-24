@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, BackgroundTasks, Form, Request
 
 from repo2lark.config import settings
-from repo2lark.models import BaseEvent, IssueEvent, PushEvent
+from repo2lark.models import BaseEvent, IssueCommentEvent, IssueEvent, PushEvent
 from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
@@ -60,6 +60,24 @@ async def webhook_urlencoded(
                     "number": params.issue.number,
                 },
             )
+        case "issue_comment":
+            params = IssueCommentEvent(**json.loads(payload))
+
+            background_tasks.add_task(
+                send_to_lark,
+                settings.issue_comment_template_id,
+                variables={
+                    "action": params.action.capitalize(),
+                    "user": params.comment.user.login,
+                    "number": params.issue.number,
+                    "repository": params.repository.full_name,
+                    "state": params.issue.state,
+                    "time": params.comment.created_at.split("T")[0].replace("-", "/"),
+                    "title": params.issue.title,
+                    "message": truncate(params.comment.body),
+                    "comment_url": params.comment.url,
+                },
+            )
         case _:
             pass
 
@@ -69,7 +87,7 @@ async def webhook_urlencoded(
 @router.post("/webhook/json")
 async def webhook_json(
     request: Request,
-    params: PushEvent | IssueEvent | BaseEvent,
+    params: PushEvent | IssueCommentEvent | IssueEvent | BaseEvent = None,
     background_tasks: BackgroundTasks = None,
 ):
     # 转发至 webhook_urlencoded
