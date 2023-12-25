@@ -8,8 +8,6 @@ from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.types import Message
 
-from repo2lark.config import settings
-
 
 def verify_signature(payload_body, secret_token, signature_header) -> None:
     """Verify that the payload was sent from GitHub by validating SHA256.
@@ -44,7 +42,9 @@ def gen_sign(timestamp, secret):
     return sign
 
 
-async def send_to_lark(template_id: str, variables: dict) -> None:
+async def send_to_lark(
+    template_id: str, lark_webhook_url: str, lark_webhook_secret: str, variables: dict
+) -> None:
     data = {
         "msg_type": "interactive",
         "card": {
@@ -55,18 +55,18 @@ async def send_to_lark(template_id: str, variables: dict) -> None:
             },
         },
     }
-    if settings.lark_webhook_secret != "" and settings.lark_webhook_secret is not None:
+    if lark_webhook_secret != "" and lark_webhook_secret is not None:
         timestamp = str(int(time.time()))
-        sign = gen_sign(timestamp, settings.lark_webhook_secret)
+        sign = gen_sign(timestamp, lark_webhook_secret)
         data["timestamp"] = timestamp
         data["sign"] = sign
 
-    if settings.lark_webhook_url == "" or settings.lark_webhook_url is None:
+    if lark_webhook_url == "" or lark_webhook_url is None:
         raise HTTPException(status_code=500, detail="lark_webhook_url is empty!")
 
     # TODO 增加超时和重试
     async with httpx.AsyncClient() as client:
-        res = await client.post(settings.lark_webhook_url, json=data)
+        res = await client.post(lark_webhook_url, json=data)
 
     if res.status_code != 200:
         raise HTTPException(status_code=500, detail=res.text)

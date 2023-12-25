@@ -1,7 +1,9 @@
 import json
 import urllib.parse as urlparse
+from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Request
+from fastapi.exceptions import HTTPException
 
 from repo2lark.config import settings
 from repo2lark.models import IssueCommentEvent, IssueEvent, PushEvent
@@ -11,13 +13,19 @@ router = APIRouter()
 
 
 @router.post("/webhook")
-async def webhook(request: Request, background_tasks: BackgroundTasks = None):
+@router.post("/webhook/{lark_webhook_token}")
+async def webhook(
+    request: Request,
+    lark_webhook_token: Optional[str] = None,
+    background_tasks: BackgroundTasks = None,
+):
     headers = request.headers
 
     if headers.get("content-type", None) == "application/json":
         body = await request.body()
         return await webhook_urlencoded(
             request,
+            lark_webhook_token=lark_webhook_token,
             payload=body.decode("utf-8"),
             background_tasks=background_tasks,
         )
@@ -27,17 +35,28 @@ async def webhook(request: Request, background_tasks: BackgroundTasks = None):
         payload = dict(urlparse.parse_qsl(body.decode("utf-8")))
         return await webhook_urlencoded(
             request,
+            lark_webhook_token=lark_webhook_token,
             payload=payload.get("payload", None),
             background_tasks=background_tasks,
         )
+    else:
+        raise HTTPException(status_code=400, detail="content-type is not supported!")
 
 
 async def webhook_urlencoded(
     request: Request,
+    lark_webhook_token: Optional[str] = None,
     payload: str = None,
     background_tasks: BackgroundTasks = None,
 ):
     headers = request.headers
+
+    if lark_webhook_token is not None:
+        lark_webhook_url = settings.lark_webhook_base_url + lark_webhook_token
+        lark_webhook_secret = None
+    else:
+        lark_webhook_url = settings.lark_webhook_url
+        lark_webhook_secret = settings.lark_webhook_secret
 
     x_github_event = headers.get("X-GitHub-Event", None)
     if x_github_event is None:
@@ -50,6 +69,8 @@ async def webhook_urlencoded(
             background_tasks.add_task(
                 send_to_lark,
                 settings.push_template_id,
+                lark_webhook_url=lark_webhook_url,
+                lark_webhook_secret=lark_webhook_secret,
                 variables={
                     "commiter": params.pusher.name,
                     "repository": params.repository.full_name,
@@ -68,6 +89,8 @@ async def webhook_urlencoded(
             background_tasks.add_task(
                 send_to_lark,
                 settings.issue_template_id,
+                lark_webhook_url=lark_webhook_url,
+                lark_webhook_secret=lark_webhook_secret,
                 variables={
                     "action": params.action.capitalize(),
                     "repository": params.repository.full_name,
@@ -86,6 +109,8 @@ async def webhook_urlencoded(
             background_tasks.add_task(
                 send_to_lark,
                 settings.issue_comment_template_id,
+                lark_webhook_url=lark_webhook_url,
+                lark_webhook_secret=lark_webhook_secret,
                 variables={
                     "action": params.action.capitalize(),
                     "user": params.comment.user.login,

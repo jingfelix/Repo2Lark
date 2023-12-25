@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     issue_template_id: str = "ctp_AAydOzv3yGRD"
     issue_comment_template_id: str = "ctp_AAy45ODQkUZY"
 
+    lark_webhook_base_url: str = "https://open.feishu.cn/open-apis/bot/v2/hook/"
     lark_webhook_url: str = ""
     lark_webhook_secret: str = ""
 
