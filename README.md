@@ -16,17 +16,29 @@
 
 ![获取 Webhook](https://sf3-cn.feishucdn.com/obj/open-platform-opendoc/39d1233fc3276c71f6fce9707abf05c9_YdZveIV7gm.png?height=1134&lazyload=true&maxWidth=600&width=1654)
 
-3. 按照如下设置在 GitHub Repo Settings 中填写 Webhook URL，选择需要的事件。在 `webhook\` 后填写飞书 Webhook URL 结尾的token（形如b8b957dc-****...）
+3. GitHub Repo Settings 中填写 Webhook URL，选择需要的事件。填写 `https://webhook.zeabur.app/webhook/{你的飞书 Webhook URL Token}` token 位于飞书 Webhook URL 结尾，形如b8b957dc-****...
 
-![设置 Webhook](assets/githubwebhook_common.png)
+![填写 Webhook URL](assets/githubwebhook_common.png)
 
 4. 现在，当有指定事件发生时，飞书群组中就会收到消息了。
 
 ![飞书群组中收到消息](assets/example_issue_mobile.png)
 
+### 使用 Zeabur 一键部署公用版
+
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/7AYO3N?referralCode=jingfelix)
+
+### 使用 Zeabur 一键部署独立版
+
+TODO
+
+## 使用 Docker 部署
+
+TODO
+
 ## 安全性
 
-使用 GitHub/飞书 Webhook Secret 可以提高安全性，但需要独立部署。你可以使用 Zeabur 进行一键部署。
+使用 GitHub/飞书 Webhook Secret 可以提高安全性，但需要独立部署。
 
 ## Supported Events
 
