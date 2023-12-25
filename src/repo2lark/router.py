@@ -1,20 +1,40 @@
 import json
-from typing import Optional
+import urllib.parse as urlparse
 
-from fastapi import APIRouter, BackgroundTasks, Form, Request
+from fastapi import APIRouter, BackgroundTasks, Request
 
 from repo2lark.config import settings
-from repo2lark.models import BaseEvent, IssueCommentEvent, IssueEvent, PushEvent
+from repo2lark.models import IssueCommentEvent, IssueEvent, PushEvent
 from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
 
 
 @router.post("/webhook")
-@router.post("/webhook/urlencoded")
+async def webhook(request: Request, background_tasks: BackgroundTasks = None):
+    headers = request.headers
+
+    if headers.get("content-type", None) == "application/json":
+        body = await request.body()
+        return await webhook_urlencoded(
+            request,
+            payload=body.decode("utf-8"),
+            background_tasks=background_tasks,
+        )
+    elif headers.get("content-type", None) == "application/x-www-form-urlencoded":
+        # decode from urlencoded
+        body = await request.body()
+        payload = dict(urlparse.parse_qsl(body.decode("utf-8")))
+        return await webhook_urlencoded(
+            request,
+            payload=payload.get("payload", None),
+            background_tasks=background_tasks,
+        )
+
+
 async def webhook_urlencoded(
     request: Request,
-    payload: Optional[str] = Form(...),
+    payload: str = None,
     background_tasks: BackgroundTasks = None,
 ):
     headers = request.headers
@@ -75,24 +95,10 @@ async def webhook_urlencoded(
                     "time": params.comment.created_at.split("T")[0].replace("-", "/"),
                     "title": params.issue.title,
                     "message": truncate(params.comment.body),
-                    "comment_url": params.comment.url,
+                    "comment_url": params.comment.html_url,
                 },
             )
         case _:
             pass
 
     return {"message": "recieved"}
-
-
-@router.post("/webhook/json")
-async def webhook_json(
-    request: Request,
-    params: PushEvent | IssueCommentEvent | IssueEvent | BaseEvent = None,
-    background_tasks: BackgroundTasks = None,
-):
-    # 转发至 webhook_urlencoded
-    return await webhook_urlencoded(
-        request,
-        payload=params.model_dump_json(),
-        background_tasks=background_tasks,
-    )

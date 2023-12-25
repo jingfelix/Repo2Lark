@@ -66,7 +66,7 @@ class IssueEvent(BaseEvent):
 class Comment(BaseModel):
     body: str
     created_at: str
-    url: str
+    html_url: str
     user: User
 
 
