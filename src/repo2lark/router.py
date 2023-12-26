@@ -6,14 +6,14 @@ from fastapi import APIRouter, BackgroundTasks, Request
 from fastapi.exceptions import HTTPException
 
 from repo2lark.config import settings
-from repo2lark.models import IssueCommentEvent, IssueEvent, PushEvent
+from repo2lark.models import IssueCommentEvent, IssueEvent, PREvent, PushEvent
 from repo2lark.utils import send_to_lark, truncate
 
 router = APIRouter()
 
 
 @router.post("/webhook")
-@router.post("/webhook/{lark_webhook_token}")
+@router.post("/open-apis/bot/v2/hook/{lark_webhook_token}")
 async def webhook(
     request: Request,
     lark_webhook_token: Optional[str] = None,
@@ -97,7 +97,7 @@ async def webhook_urlencoded(
                     "title": params.issue.title,
                     "message": truncate(params.issue.body),
                     "issue_url": params.issue.html_url,
-                    "state": params.issue.state,
+                    "state": params.issue.state.capitalize(),
                     "time": params.issue.updated_at.split("T")[0].replace("-", "/"),
                     "user": params.issue.user.login,
                     "number": params.issue.number,
@@ -116,11 +116,35 @@ async def webhook_urlencoded(
                     "user": params.comment.user.login,
                     "number": params.issue.number,
                     "repository": params.repository.full_name,
-                    "state": params.issue.state,
+                    "state": params.issue.state.capitalize(),
                     "time": params.comment.created_at.split("T")[0].replace("-", "/"),
                     "title": params.issue.title,
                     "message": truncate(params.comment.body),
                     "comment_url": params.comment.html_url,
+                },
+            )
+        case "pull_request":
+            params = PREvent(**json.loads(payload))
+
+            background_tasks.add_task(
+                send_to_lark,
+                settings.pr_template_id,
+                lark_webhook_url=lark_webhook_url,
+                lark_webhook_secret=lark_webhook_secret,
+                variables={
+                    "action": params.action.capitalize(),
+                    "user": params.pull_request.user.login,
+                    "number": params.number,
+                    "repository": params.repository.full_name,
+                    "state": params.pull_request.state.capitalize(),
+                    "time": params.pull_request.updated_at.split("T")[0].replace(
+                        "-", "/"
+                    ),
+                    "title": params.pull_request.title,
+                    "head": params.pull_request.head.ref,
+                    "base": params.pull_request.base.ref,
+                    "pr_url": params.pull_request.html_url,
+                    # "assignee": params.pull_request.assignee.login
                 },
             )
         case _:

@@ -65,10 +65,10 @@ async def send_to_lark(
         raise HTTPException(status_code=500, detail="lark_webhook_url is empty!")
 
     # TODO 增加超时和重试
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15) as client:
         res = await client.post(lark_webhook_url, json=data)
 
-    if res.status_code != 200:
+    if res.status_code != 200 or res.json()["code"] != 0:
         raise HTTPException(status_code=500, detail=res.text)
 
 

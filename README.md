@@ -8,6 +8,10 @@
 
 公用服务版不支持使用 GitHub Webhook Secret 和飞书 Webhook Secret。优点是使用方便，仅需替换 Webhook URL 即可。
 
+<details>
+
+<summary>具体步骤</summary>
+
 1. 在飞书群组中添加一个 Webhook 机器人。
 
 ![添加 Webhook 机器人](https://sf3-cn.feishucdn.com/obj/open-platform-opendoc/a9f4e16ea91fd15a272b0ba926e4c2fd_k0hrjUtKqR.png?height=1106&lazyload=true&maxWidth=600&width=1652)
@@ -23,6 +27,8 @@
 4. 现在，当有指定事件发生时，飞书群组中就会收到消息了。
 
 ![飞书群组中收到消息](assets/example_issue_mobile.png)
+
+</details>
 
 ### 使用 Zeabur 一键部署公用版
 
@@ -46,8 +52,18 @@ TODO
 
 - [ ] pull_request
 
+    - [ ] assigned
+
+    - [ ] review_request
+
+- [ ] pull_request_review
+
 - [ ] pull_request_comment
 
 - [x] issue
 
+    - [ ] assigned
+
 - [x] issue_comment
+
+- [ ] workflow_run

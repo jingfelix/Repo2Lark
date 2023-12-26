@@ -46,6 +46,9 @@ class User(BaseModel):
     name: Optional[str] = None
 
 
+Assignee = User
+
+
 class Issue(BaseModel):
     id: int
     number: int
@@ -72,3 +75,32 @@ class Comment(BaseModel):
 
 class IssueCommentEvent(IssueEvent):
     comment: Comment
+
+
+class Head(BaseModel):
+    ref: str
+    repo: Repository
+    sha: str
+    user: User
+
+
+Base = Head
+
+
+class PullRequest(BaseModel):
+    html_url: str
+    state: str
+    user: User
+    title: str
+    body: str | None
+    base: Base
+    head: Head
+    updated_at: str
+    assignee: Optional[Assignee] = None
+
+
+class PREvent(BaseEvent):
+    action: str
+    number: int
+    pull_request: PullRequest
+    repository: Repository
