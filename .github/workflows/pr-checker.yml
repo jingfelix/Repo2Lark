@@ -1,6 +1,9 @@
 name: ISORT and BLACK
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
     isort:
@@ -9,7 +12,7 @@ jobs:
           - uses: actions/checkout@v2
           - uses: actions/setup-python@v2
             with:
-              python-version: 3.10
+              python-version: "3.10"
           - uses: isort/isort-action@master
             with:
                 requirementsFiles: "requirements.txt requirements-test.txt"
@@ -17,14 +20,11 @@ jobs:
     black:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
-        - uses: psf/black@stable
+          - uses: actions/checkout@v3
+          - uses: psf/black@stable
     pre_commit:
         runs-on: ubuntu-latest
         steps:
-        - name: set PY
-          run: echo "PY=$(python -VV | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
-        - uses: actions/cache@v3
-          with:
-            path: ~/.cache/pre-commit
-            key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v3
+          - uses: pre-commit/action@v3.0.0
