@@ -1,8 +1,27 @@
-# Repo2Lark
+<div align="center">
+    <h1>Repo2Lark</h1>
+    <a href="https://pypi.org/project/Repo2Lark/"><img src="https://img.shields.io/pypi/v/Repo2Lark" alt="PyPI"></a>
+    <!-- <a href="https://pypi.org/project/Repo2Lark/"><img src="https://img.shields.io/pypi/pyversions/Repo2Lark" alt="PyPI - Python Version"></a> -->
+    <a href="https://github.com/jingfelix/Repo2Lark/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/Repo2Lark" alt="PyPI - License"></a>
+    <a href="https://pdm-project.org"><img src="https://img.shields.io/badge/pdm-managed-blueviolet" alt="pdm-managed"></a>
+    <a href="https://zeabur.com?referralCode=jingfelix"><img src="https://img.shields.io/badge/zeabur-deployed-6300FF" alt="Zeabur-Deployed"></a>
+    <div>
+    优雅地转发 GitHub Webhook 事件到飞书 支持多种事件 支持自定义 Webhook Secret[^1]
+    </div>
+</div>
 
-优雅地转发 GitHub Webhook 事件到飞书。支持多种事件，支持自定义 Webhook Secret（仅独立部署）
+## 📷 截图
 
-## 使用
+<div align="center">
+    <div>
+        <img src="assets/issue_card.png" alt="issue example" width="20%" style="vertical-align: top;"/>
+        <img src="assets/pr_card.png" alt="pr example" width="20%" style="vertical-align: top;"/>
+        <img src="assets/push_card.png" alt="push example" width="20%" style="vertical-align: top;"/>
+        <img src="assets/issue_comment_card.png" alt="comment example" width="20%" style="vertical-align: top;"/>
+    </div>
+</div>
+
+## 🔨 使用
 
 ### 使用 Zeabur 上部署的公用服务
 
@@ -10,7 +29,7 @@
 
 <details>
 
-<summary>具体步骤</summary>
+<summary>具体步骤 👇</summary>
 
 1. 在飞书群组中添加一个 Webhook 机器人。
 
@@ -20,37 +39,37 @@
 
 ![获取 Webhook](https://sf3-cn.feishucdn.com/obj/open-platform-opendoc/39d1233fc3276c71f6fce9707abf05c9_YdZveIV7gm.png?height=1134&lazyload=true&maxWidth=600&width=1654)
 
-3. GitHub Repo Settings 中填写 Webhook URL，选择需要的事件。填写 `https://webhook.zeabur.app/webhook/{你的飞书 Webhook URL Token}` token 位于飞书 Webhook URL 结尾，形如b8b957dc-****...
+3. GitHub Repo Settings 中填写 Webhook URL，选择需要的事件。填写 `https://webhook.zeabur.app/open-apis/bot/v2/hook/{你的飞书 Webhook Token}`（或直接将 `open.feushu.cn` 替换为 `webhook.zeabur.app`） token 位于飞书 Webhook URL 结尾，形如b8b957dc-****...
 
 ![填写 Webhook URL](assets/githubwebhook_common.png)
 
 4. 现在，当有指定事件发生时，飞书群组中就会收到消息了。
 
-![飞书群组中收到消息](assets/example_issue_mobile.png)
+<img src="assets/example_issue_mobile.png" alt="issue example" width="30%" />
 
 </details>
 
 ### 使用 Zeabur 一键部署公用版
 
-[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/7AYO3N?referralCode=jingfelix)
+<a href="https://zeabur.com/templates/8RI7HT?referralCode=jingfelix"><img src="https://zeabur.com/button.svg" alt="Deploy on Zeabur"/></a>
 
 ### 使用 Zeabur 一键部署独立版
 
 TODO
 
-## 使用 Docker 部署
+## 📦 使用 Docker 部署
 
 TODO
 
-## 安全性
+## 🔒 安全性
 
 使用 GitHub/飞书 Webhook Secret 可以提高安全性，但需要独立部署。
 
-## Supported Events
+## 📅 支持的事件
 
 - [x] push
 
-- [ ] pull_request
+- [x] pull_request
 
     - [ ] assigned
 
@@ -67,3 +86,6 @@ TODO
 - [x] issue_comment
 
 - [ ] workflow_run
+
+
+[^1]: 仅独立部署版支持 Webhook Secret
