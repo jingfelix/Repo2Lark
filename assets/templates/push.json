@@ -1,0 +1,159 @@
+{
+    "config": {
+        "wide_screen_mode": true
+    },
+    "header": {
+        "template": "blue",
+        "title": {
+            "tag": "plain_text",
+            "i18n": {
+                "zh_cn": "🚀 @${commiter} 推送了代码",
+                "en_us": "🚀 @${commiter} Pushes code"
+            }
+        }
+    },
+    "i18n_elements": {
+        "zh_cn": [
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "📦 <font color='grey'>仓库</font>\n${repository}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🔀 <font color='grey'>分支</font>\n${branch}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🕒 <font color='grey'>日期</font>\n${time}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "📝 <font color='grey'>提交信息</font> \n${message}"
+                },
+                "extra": {
+                    "tag": "button",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "详情"
+                    },
+                    "type": "primary",
+                    "multi_url": {
+                        "url": "${commit_url}",
+                        "pc_url": "",
+                        "android_url": "",
+                        "ios_url": ""
+                    }
+                }
+            },
+            {
+                "tag": "note",
+                "elements": [
+                    {
+                        "tag": "img",
+                        "img_key": "img_v3_026c_6a32b46a-2569-49b3-9600-8d36b4c2c1dg",
+                        "alt": {
+                            "tag": "plain_text",
+                            "content": "https://github.com/jingfelix/Repo2Lark"
+                        }
+                    },
+                    {
+                        "tag": "plain_text",
+                        "content": "Repo2Lark"
+                    }
+                ]
+            }
+        ],
+        "en_us": [
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "📦 <font color='grey'>REPOSITORY</font>\n${repository}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🔀 <font color='grey'>BRANCH</font>\n${branch}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🕒 <font color='grey'>DATE</font>\n${time}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "📝 <font color='grey'>MESSAGE</font> \n${message}"
+                },
+                "extra": {
+                    "tag": "button",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "Details"
+                    },
+                    "type": "primary",
+                    "multi_url": {
+                        "url": "${commit_url}",
+                        "pc_url": "",
+                        "android_url": "",
+                        "ios_url": ""
+                    }
+                }
+            },
+            {
+                "tag": "note",
+                "elements": [
+                    {
+                        "tag": "img",
+                        "img_key": "img_v3_026c_6a32b46a-2569-49b3-9600-8d36b4c2c1dg",
+                        "alt": {
+                            "tag": "plain_text",
+                            "content": "https://github.com/jingfelix/Repo2Lark"
+                        }
+                    },
+                    {
+                        "tag": "plain_text",
+                        "content": "Repo2Lark"
+                    }
+                ]
+            }
+        ]
+    }
+}

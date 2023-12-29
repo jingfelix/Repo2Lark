@@ -1,0 +1,197 @@
+{
+    "config": {
+        "wide_screen_mode": true
+    },
+    "header": {
+        "template": "green",
+        "title": {
+            "tag": "plain_text",
+            "i18n": {
+                "zh_cn": "❓ @${user} ${action} PR#${number}",
+                "en_us": "❓ @${user} ${action} PR#${number}"
+            }
+        }
+    },
+    "i18n_elements": {
+        "zh_cn": [
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "📦 <font color='grey'>仓库</font>\n${repository}\n"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🚧 <font color='grey'>状态</font>\n${state}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🕒 <font color='grey'>日期</font>\n${time}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🆘 <font color='grey'>标题</font>\n${title}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "📝 <font color='grey'>信息</font> \n基分支：${base}\n目标分支：${head}"
+                },
+                "extra": {
+                    "tag": "button",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "详情"
+                    },
+                    "type": "primary",
+                    "multi_url": {
+                        "url": "${pr_url}",
+                        "pc_url": "",
+                        "android_url": "",
+                        "ios_url": ""
+                    }
+                }
+            },
+            {
+                "tag": "note",
+                "elements": [
+                    {
+                        "tag": "img",
+                        "img_key": "img_v3_026c_6a32b46a-2569-49b3-9600-8d36b4c2c1dg",
+                        "alt": {
+                            "tag": "plain_text",
+                            "content": "https://github.com/jingfelix/Repo2Lark"
+                        }
+                    },
+                    {
+                        "tag": "plain_text",
+                        "content": "Repo2Lark"
+                    }
+                ]
+            }
+        ],
+        "en_us": [
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "📦 <font color='grey'>REPOSITORY</font>\n${repository}\n"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🚧 <font color='grey'>STATE</font>\n${state}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🕒 <font color='grey'>DATE</font>\n${time}"
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "fields": [
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": "🆘 <font color='grey'>TITLE</font>\n${title}"
+                        }
+                    },
+                    {
+                        "is_short": true,
+                        "text": {
+                            "tag": "lark_md",
+                            "content": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "tag": "div",
+                "text": {
+                    "tag": "lark_md",
+                    "content": "📝 <font color='grey'>INFO</font> \nBase: ${base}\nHead: ${head}"
+                },
+                "extra": {
+                    "tag": "button",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "Details"
+                    },
+                    "type": "primary",
+                    "multi_url": {
+                        "url": "${pr_url}",
+                        "pc_url": "",
+                        "android_url": "",
+                        "ios_url": ""
+                    }
+                }
+            },
+            {
+                "tag": "note",
+                "elements": [
+                    {
+                        "tag": "img",
+                        "img_key": "img_v3_026c_6a32b46a-2569-49b3-9600-8d36b4c2c1dg",
+                        "alt": {
+                            "tag": "plain_text",
+                            "content": "https://github.com/jingfelix/Repo2Lark"
+                        }
+                    },
+                    {
+                        "tag": "plain_text",
+                        "content": "Repo2Lark"
+                    }
+                ]
+            }
+        ]
+    }
+}
