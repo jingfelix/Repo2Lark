@@ -6,7 +6,7 @@
     <a href="https://pdm-project.org"><img src="https://img.shields.io/badge/pdm-managed-blueviolet" alt="pdm-managed"></a>
     <a href="https://zeabur.com?referralCode=jingfelix"><img src="https://img.shields.io/badge/zeabur-deployed-6300FF" alt="Zeabur-Deployed"></a>
     <div>
-    优雅地转发 GitHub Webhook 事件到飞书 支持多种事件 支持自定义 Webhook Secret[^1]
+    优雅地转发 GitHub Webhook 事件到飞书
     </div>
 </div>
 
@@ -86,6 +86,3 @@ TODO
 - [x] issue_comment
 
 - [ ] workflow_run
-
-
-[^1]: 仅独立部署版支持 Webhook Secret
