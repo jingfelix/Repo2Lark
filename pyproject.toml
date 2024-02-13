@@ -10,7 +10,7 @@ dependencies = [
     "httpx>=0.26.0",
     "uvicorn>=0.25.0",
     "pydantic-settings>=2.1.0",
-    "python-multipart>=0.0.6",
+    "python-multipart==0.0.7",
     "urllib3>=2.1.0",
 ]
 requires-python = ">=3.10"
