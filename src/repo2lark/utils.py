@@ -82,6 +82,8 @@ def truncate(text: str, length: int = 80) -> str:
     Returns:
         Truncated text.
     """
+    if text is None:
+        return ""
     if len(text) > length:
         return text[: length - 3] + "..."
     return text
