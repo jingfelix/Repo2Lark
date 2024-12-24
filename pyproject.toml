@@ -1,6 +1,6 @@
 [project]
 name = "Repo2Lark"
-version = "0.0.3"
+version = "0.0.4"
 description = "Default template for PDM package"
 authors = [
     {name = "jingfelix", email = "jingfelix@outlook.com"},
