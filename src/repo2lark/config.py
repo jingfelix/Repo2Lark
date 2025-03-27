@@ -22,6 +22,8 @@ class Settings(BaseSettings):
 
     github_webhook_secret: str = ""
 
+    use_secret: bool = False
+
     class Config:
         env_file = ".env"
 
